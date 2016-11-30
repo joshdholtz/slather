@@ -456,7 +456,12 @@ module Slather
         end
       end
 
-      raise StandardError, "No product binary found in #{profdata_coverage_dir}." unless found_binaries.count > 0
+      # Searching for basenames because it should really do this
+      binary_basename.each do |basename|
+        found_binaries += Dir.glob("#{profdata_coverage_dir}/**/#{basename}")
+      end
+
+      raise StandardError, "No product binary hehefound in #{profdata_coverage_dir}." unless found_binaries.count > 0
 
       found_binaries.map { |binary| File.expand_path(binary) }
     end
